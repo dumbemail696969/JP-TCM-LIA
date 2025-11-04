@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>CHATBOT LIA</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Consultar CEP</h1>
+    <input type="text" id="cep" placeholder="Qual a sua duvida?" maxlength="100">
+    <button onclick="perguntar()">Buscar</button>
+    <div class="resultado" id="resultado"></div>
+  </div>
+</body>
+
+</html>
