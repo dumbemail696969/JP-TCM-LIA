@@ -1,17 +1,49 @@
-import openai,Scraper,re
+import re
+import openai
+import  Scraper
 openai.api_key = ""
-raw = re.split(r'[,\.\n]+',Scraper.scrape_site("https://www.jovemprogramador.com.br/")+Scraper.scrape_site("https://www.jovemprogramador.com.br/apoiadores.php")+Scraper.scrape_site("https://www.jovemprogramador.com.br/sobre.php")+Scraper.scrape_site("https://www.jovemprogramador.com.br/patrocinadores.php")+Scraper.scrape_site("https://www.jovemprogramador.com.br/parceiros.php")+Scraper.scrape_site("https://www.jovemprogramador.com.br/duvidas.php")+Scraper.scrape_site("https://www.jovemprogramador.com.br/queroserprofessor/"))
+
+# Assume Scraper.scrape_site is defined and works correctly
+
+# Scrape and clean data
+urls = [
+    "https://www.jovemprogramador.com.br/",
+    "https://www.jovemprogramador.com.br/apoiadores.php",
+    "https://www.jovemprogramador.com.br/sobre.php",
+    "https://www.jovemprogramador.com.br/patrocinadores.php",
+    "https://www.jovemprogramador.com.br/parceiros.php",
+    "https://www.jovemprogramador.com.br/duvidas.php",
+    "https://www.jovemprogramador.com.br/queroserprofessor/"
+]
+
+all_text = ""
+for url in urls:
+    all_text += Scraper.scrape_site(url)
+
+# Token-friendly cleaning
+raw = re.split(r'[,\.\n]+', all_text)
 raw = [item.strip().lower() for item in raw if item.strip()]
 context = "\n".join(raw)
-insight = "Follow these considerations:Base it in the information from before,say 'Sorry,it's outside my operation range to answer that' when asked ANYTHING not related to the information from before, answer shortly this question:"
+
+system_prompt = (
+    "You are an assistant that only answers questions based on the following context.\n"
+    "If a question is unrelated, say: 'Sorry, it's outside my operation range to answer that.'\n"
+    "Be short and concise.\n"
+    f"Context:\n{context}"
+)
+
+# Chat loop
 while True:
-  user_query = input()
-  prompt = f"{raw}{insight}{user_query}"
-  completion = openai.Completion.create(
-    model="gpt-4o-mini",
-    prompt=prompt,
-    max_tokens=500,  
-    temperature=0.1,
-    stop=(".","?","!")
-  )
-  print(completion.choices[0].text.strip())
+    user_query = input("You: ")
+
+    response = openai.ChatCompletion.create(
+        model="gpt-4o-mini",  # Or "gpt-4o-mini" if it's enabled for chat
+        messages=[
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_query}
+        ],
+        max_tokens=200,
+        temperature=0.1
+    )
+
+    print("Bot:", response['choices'][0]['message']['content'].strip())
