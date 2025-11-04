@@ -3,8 +3,6 @@ from bs4 import BeautifulSoup
 def scrape_site(url):
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
-    
-    # Extract visible text from paragraphs
     paragraphs = soup.find_all('p')
     text = "\n".join([para.get_text() for para in paragraphs])
     return text
