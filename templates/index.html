@@ -4,15 +4,43 @@
   <meta charset="UTF-8">
   <title>CHATBOT LIA</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <script src="{{ url_for('static', filename='script.js') }}" defer></script>
 </head>
 <body>
-  <div class="container">
-    <h1>Consultar CEP</h1>
-    <input type="text" id="cep" placeholder="Qual a sua duvida?" maxlength="100">
-    <button onclick="perguntar()">Buscar</button>
-    <div class="resultado" id="resultado"></div>
-  </div>
-</body>
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+        </div>
+    </div>
+    <div id="chat-widget">
+        <div class="chat-box closed">
+            <div class="chat-header">
+                <h2>CHATBOT LIA</h2>
+                <button class="close-btn" onclick="toggleChat()">X</button>
+            </div>
+            
+            <div id="chat-window" class="resultado">
+                <div class="bot-message">Olá! Sou o Chatbot LIA. Em que posso ajudar com informações sobre a Jovem Programador?</div>
+            </div>
+            
+            <div class="chat-input-area">
+                <input type="text" id="user-input" placeholder="Digite sua mensagem...">
+                <button onclick="sendMessage()">Enviar</button>
+            </div>
+        </div>
 
+        <button id="open-chat-btn" onclick="toggleChat()">
+            💬
+        </button>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget({
+          rootPath: 'https://vlibras.gov.br/app',
+          position: 'TR'
+        });
+      </script>
+</body>
 </html>
