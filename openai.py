@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 from datetime import datetime
-from openai import OpenAI 
+from Openai import OpenAI 
 dotenv_path = "OPENAI_API_KEY.env"
 load_dotenv(dotenv_path) 
 api_key = os.getenv("OPENAI_API_KEY")
