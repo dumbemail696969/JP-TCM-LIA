@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify
-from Openai import get_bot_response 
+from openai import get_bot_response 
 app = Flask(__name__)
 @app.route('/')
 def index():
